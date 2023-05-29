@@ -1,5 +1,84 @@
 #include "raylib.h"
-#include "movement.h"
+
+void checkMovement(bool * sprint, int sprintBonus, Vector2 * playerPosition, Rectangle playerArea, int movementSpeed, Rectangle * ball){
+        if(IsKeyPressed(KEY_LEFT_SHIFT) || IsKeyPressed(KEY_RIGHT_SHIFT)) {
+            *sprint = true;
+        }
+
+        if(IsKeyReleased(KEY_LEFT_SHIFT) || IsKeyReleased(KEY_RIGHT_SHIFT)){
+            *sprint = false;
+        }
+
+        if (IsKeyDown(KEY_D)) {
+            playerPosition->x += movementSpeed;
+            if(*sprint){
+                playerPosition->x += sprintBonus;
+
+                if(CheckCollisionRecs(playerArea, *ball) && !IsKeyDown(KEY_F)){
+                    ball->x += sprintBonus;
+                }
+            }
+
+            if(CheckCollisionRecs(playerArea, *ball) && !IsKeyDown(KEY_F)){
+                ball->x += movementSpeed;
+            }
+        }
+
+        if (IsKeyDown(KEY_A)) {
+            playerPosition->x -= movementSpeed;
+            if(*sprint){
+                playerPosition->x -= sprintBonus;
+
+                if(CheckCollisionRecs(playerArea, *ball) && !IsKeyDown(KEY_F)){
+                    ball->x -= sprintBonus;
+                }
+            }
+            
+            if(CheckCollisionRecs(playerArea, *ball) && !IsKeyDown(KEY_F)){
+                ball->x -= movementSpeed;
+            }
+        }
+
+        if (IsKeyDown(KEY_W)) {
+            playerPosition->y -= movementSpeed;
+            if(*sprint){
+                playerPosition->y -= sprintBonus;
+
+                if(CheckCollisionRecs(playerArea, *ball) && !IsKeyDown(KEY_F)){
+                    ball->y -= sprintBonus;
+                }
+            }
+
+            if(CheckCollisionRecs(playerArea, *ball) && !IsKeyDown(KEY_F)){
+                ball->y -= movementSpeed;
+            }
+        }
+
+        if (IsKeyDown(KEY_S)) {
+            playerPosition->y += movementSpeed;
+            if(*sprint){
+                playerPosition->y += sprintBonus;
+
+                if(CheckCollisionRecs(playerArea, *ball) && !IsKeyDown(KEY_F)){
+                    ball->y += sprintBonus;
+                }
+            }
+
+            if(CheckCollisionRecs(playerArea, *ball) && !IsKeyDown(KEY_F)){
+                ball->y += movementSpeed;
+            }
+        }
+
+        if(IsKeyDown(KEY_X)){
+            if(CheckCollisionRecs(playerArea, *ball)){
+
+                ball->x = GetMousePosition().x;
+                ball->y = GetMousePosition().y;
+            }
+        }
+}
+
+
 
 int main(void)
 {
@@ -30,12 +109,21 @@ int main(void)
     // Main game loop
     while (!WindowShouldClose())  
     {
+        // making pointers
+        Vector2 *ptr;
+        ptr = &playerPosition;
+        Rectangle *ptr2;
+        ptr2 = &ball;
+        bool *sprintptr;
+        sprintptr = &sprint;
+
+
         //Set Hitboxes
         Rectangle playerArea = {playerPosition.x + player.width/2 - 5, playerPosition.y + player.height/2 - 6, player.width, player.height};
         Rectangle blueNetArea = {blueNetPosition.x + blueNet.width/2, blueNetPosition.y, blueNet.width/2, blueNet.height};
         Rectangle redNetArea = {redNetPosition.x, redNetPosition.y, redNet.width/2, redNet.height};
 
-        checkMovement(sprint, sprintBonus, playerPosition, playerArea, movementSpeed, ball);
+        checkMovement(sprintptr, sprintBonus, ptr, playerArea, movementSpeed, ptr2);
 
         //Dev Tools
         if(IsKeyDown(KEY_G)){

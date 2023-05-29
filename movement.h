@@ -1,0 +1,1 @@
+void checkMovement(bool sprint, int sprintBonus, Vector2 playerPosition, Rectangle playerArea, int movementSpeed, Rectangle ball);

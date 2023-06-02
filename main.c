@@ -14,26 +14,21 @@ struct Player {
 };
 
 void checkWallCollision(Vector2 *playerPosition, int screenWidth, int screenHeight){
-    if(playerPosition->y > screenHeight){
-        while(playerPosition->y > screenHeight){
-            playerPosition->y--;
-        }
-    }
-    else if(playerPosition->y < 0){
-        while(playerPosition->y < 0){
-            playerPosition->y++;
-        }
+
+    while(playerPosition->y > screenHeight){
+        playerPosition->y--;
     }
 
-    if(playerPosition->x > screenWidth){
-        while(playerPosition->x > screenWidth){
-            playerPosition->x--;
-        }
+    while(playerPosition->y < 0){
+        playerPosition->y++;
     }
-    else if(playerPosition->x < 0){
-        while(playerPosition->x < 0){
-            playerPosition->x++;
-        }
+
+    while(playerPosition->x > screenWidth){
+        playerPosition->x--;
+    }
+
+    while(playerPosition->x < 0){
+        playerPosition->x++;
     }
 }
 
@@ -75,14 +70,12 @@ void checkMovement(bool * sprint, int sprintBonus, Vector2 * playerPosition, Rec
         }
 }
 
-
-
 int main(void)
 {
     const int screenWidth = 800;
     const int screenHeight = 450;
 
-    InitWindow(screenWidth, screenHeight, "not really a gaem");
+    InitWindow(screenWidth, screenHeight, "futboly");
 
     struct Player P1;
     P1.texture = LoadTexture("resources/player1.png");

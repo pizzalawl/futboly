@@ -15,17 +15,25 @@ struct Player {
 
 void checkWallCollision(Vector2 *playerPosition, int screenWidth, int screenHeight){
     if(playerPosition->y > screenHeight){
-        playerPosition--;
+        while(playerPosition->y > screenHeight){
+            playerPosition->y--;
+        }
     }
     else if(playerPosition->y < 0){
-        playerPosition++;
+        while(playerPosition->y < 0){
+            playerPosition->y++;
+        }
     }
 
     if(playerPosition->x > screenWidth){
-        playerPosition--;
+        while(playerPosition->x > screenWidth){
+            playerPosition->x--;
+        }
     }
     else if(playerPosition->x < 0){
-        playerPosition++;
+        while(playerPosition->x < 0){
+            playerPosition->x++;
+        }
     }
 }
 
@@ -163,9 +171,8 @@ int main(void)
             //Check collision with the walls
             checkWallCollision(P1.positionPointer, screenWidth, screenHeight);
             checkWallCollision(P2.positionPointer, screenWidth, screenHeight);
-            
 
-            //Check collision with the net
+            //Check ball collision with the net
             if(CheckCollisionRecs(ball, redNetArea)){
                 score2++;                
                 ball.x = screenWidth/2 + ball.width/2;

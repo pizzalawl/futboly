@@ -13,9 +13,9 @@ struct Player {
     int keySet[5];
 };
 
-void checkWallCollision(Vector2 *playerPosition, int screenWidth, int screenHeight){
+void checkWallCollision(Vector2 *playerPosition, float playerWidth, float playerHeight, int screenWidth, int screenHeight){
 
-    while(playerPosition->y > screenHeight){
+    while(playerPosition->y > screenHeight - playerHeight - playerHeight/2){
         playerPosition->y--;
     }
 
@@ -23,7 +23,7 @@ void checkWallCollision(Vector2 *playerPosition, int screenWidth, int screenHeig
         playerPosition->y++;
     }
 
-    while(playerPosition->x > screenWidth){
+    while(playerPosition->x > screenWidth - playerWidth - playerWidth/2){
         playerPosition->x--;
     }
 
@@ -137,7 +137,9 @@ int main(void)
 
         //Dev Tools
         if(IsKeyDown(KEY_G)){
-            DrawText(TextFormat("Mouse Position:%f%s%f",GetMousePosition().x, ", ", GetMousePosition().y), 0, 0, 30, RED);  
+            DrawText(TextFormat("Mouse Position:%f%s%f",GetMousePosition().x, ", ", GetMousePosition().y), 0, 0, 30, RED);
+            DrawText(TextFormat("P1 Position:%f%s%f",P1.position.x, ", ", P1.position.y), 0, 30, 30, RED);
+            DrawText(TextFormat("P2 Position:%f%s%f",P2.position.x, ", ", P2.position.y), 0, 60, 30, RED);  
         }
         if(IsKeyDown(KEY_X)){
             ball.x = GetMousePosition().x;
@@ -162,8 +164,8 @@ int main(void)
             DrawTextureEx(P2.texture, P2.position, 0, 1.7, WHITE);
 
             //Check collision with the walls
-            checkWallCollision(P1.positionPointer, screenWidth, screenHeight);
-            checkWallCollision(P2.positionPointer, screenWidth, screenHeight);
+            checkWallCollision(P1.positionPointer, P1.texture.width, P1.texture.height, screenWidth, screenHeight);
+            checkWallCollision(P2.positionPointer, P2.texture.width, P2.texture.height, screenWidth, screenHeight);
 
             //Check ball collision with the net
             if(CheckCollisionRecs(ball, redNetArea)){
